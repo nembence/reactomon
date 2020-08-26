@@ -1,14 +1,21 @@
 import React, { Component } from "react";
-import PokemonList from "../components/PokemonList";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import PokemonList from "../components/pokemons/PokemonList";
+import Header from "../components/header/Header";
+import TypeList from "../components/types/TypeList";
+import Navbar from "../components/navbar/Navbar";
+import Footer from "../components/footer/Footer";
 import axios from "axios";
 
 class App extends Component {
     state = {
         pokemons: [],
+        types: [],
     };
 
     componentDidMount() {
         this.getPokemons();
+        this.getTypes();
     }
 
     getPokemons = async () => {
@@ -19,12 +26,32 @@ class App extends Component {
         this.setState({ pokemons: response.data.results });
     };
 
+    getTypes = async () => {
+        const response = await axios.get("https://pokeapi.co/api/v2/type");
+        console.log(response.data.results);
+        this.setState({ types: response.data.results });
+    };
+
     render() {
-        <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/1280px-International_Pok%C3%A9mon_logo.svg.png"
-            alt="Pokemon logo"
-        />;
-        return <PokemonList pokemons={this.state.pokemons} />;
+        console.log(this.state);
+        return (
+            <Router>
+                <React.Fragment>
+                    <Header />
+                    <Navbar />
+                    <Route
+                        path="/pokemons"
+                        render={() => (
+                            <PokemonList pokemons={this.state.pokemons} />
+                        )}
+                    />
+                    <Route
+                        path="/types"
+                        render={() => <TypeList types={this.state.types} />}
+                    />
+                </React.Fragment>
+            </Router>
+        );
     }
 }
 
