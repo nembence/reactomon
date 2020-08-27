@@ -1,0 +1,10 @@
+.pick {
+    font-size: 55px;
+    font-weight: bolder;
+    position: relative;
+    left: 20px;
+}
+
+.ui.secondary.vertical.pointing.menu {
+    height: 50px;
+}
