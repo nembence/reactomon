@@ -4,8 +4,9 @@ import PokemonList from "../components/pokemons/PokemonList";
 import Header from "../components/header/Header";
 import TypeList from "../components/types/TypeList";
 import Navbar from "../components/navbar/Navbar";
-import Footer from "../components/footer/Footer";
+import PokemonDetail from "../components/detailPage/PokemonDetail";
 import axios from "axios";
+import "./App.css";
 
 class App extends Component {
     state = {
@@ -28,12 +29,10 @@ class App extends Component {
 
     getTypes = async () => {
         const response = await axios.get("https://pokeapi.co/api/v2/type");
-        console.log(response.data.results);
         this.setState({ types: response.data.results });
     };
 
     render() {
-        console.log(this.state);
         return (
             <Router>
                 <React.Fragment>
@@ -48,6 +47,10 @@ class App extends Component {
                     <Route
                         path="/types"
                         render={() => <TypeList types={this.state.types} />}
+                    />
+                    <Route
+                        path="/pokemon/:id"
+                        render={() => <PokemonDetail />}
                     />
                 </React.Fragment>
             </Router>
