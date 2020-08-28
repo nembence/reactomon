@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
     return (
         <div style={navbarStyle}>
-            <div className="ui two item menu" id="menu">
+            <div className="ui three item menu" id="menu">
                 <Link to="/pokemons" className="item">
                     Pokemons
                 </Link>
                 <Link to="/types" className="item">
                     Types
+                </Link>
+                <Link to="/catched" className="item">
+                    Catched
                 </Link>
             </div>
         </div>

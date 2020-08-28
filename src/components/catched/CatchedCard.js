@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PokeBall from "./PokeBall";
 
-const PokemonCard = ({ name, index, handleClick }) => {
+const CatchedCard = ({ name, index }) => {
     const url = `https://pokeres.bastionbot.org/images/pokemon/${index}.png`;
     const titleCased =
         name.charAt(0).toUpperCase() + name.substr(1).toLowerCase();
@@ -17,9 +16,6 @@ const PokemonCard = ({ name, index, handleClick }) => {
             <div className="content">
                 <div className="header">
                     <div style={nextStyle}>{titleCased}</div>
-                    <div onClick={() => handleClick(name, index)}>
-                        <PokeBall name={name} />
-                    </div>
                 </div>
             </div>
         </div>
@@ -38,4 +34,4 @@ const nextStyle = {
     color: "black",
 };
 
-export default PokemonCard;
+export default CatchedCard;
