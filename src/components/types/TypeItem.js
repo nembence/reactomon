@@ -26,6 +26,7 @@ const typeStyle = {
     position: "relative",
     top: "1.5vw",
     margin: "0 auto",
+    fontWeight: "bold",
 };
 
 export default TypeItem;
