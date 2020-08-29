@@ -1,0 +1,15 @@
+.header {
+    max-height: 15rem;
+    margin: 2rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.item {
+    font-size: 19px;
+}
+
+#menu {
+    width: 40rem;
+}
