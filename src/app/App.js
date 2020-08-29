@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import PokemonList from "../components/pokemons/PokemonList";
 import Header from "../components/header/Header";
@@ -7,88 +7,87 @@ import TypeList from "../components/types/TypeList";
 import Navbar from "../components/navbar/Navbar";
 import PokemonDetail from "../components/detailPage/PokemonDetail";
 import axios from "axios";
-import "./App.css";
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            pokemons: [],
-            types: [],
-            catched: [],
-        };
-        this.handleClick = this.handleClick.bind(this);
-    }
+const App = () => {
+    const [pokemons, setPokemons] = useState([]);
+    const [types, setTypes] = useState([]);
+    const [catched, setCatched] = useState([]);
+    const [theme, setTheme] = useState(true);
 
-    componentDidMount() {
-        this.getPokemons();
-        this.getTypes();
-    }
+    useEffect(() => {
+        changeTheme();
+        getPokemons();
+        getTypes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    getPokemons = async () => {
+    const getPokemons = async () => {
         const response = await axios({
             method: "GET",
-            url: "https://pokeapi.co/api/v2/pokemon",
+            url: "https://pokeapi.co/api/v2/pokemon"
         });
-        this.setState({ pokemons: response.data.results });
+        setPokemons(response.data.results);
     };
 
-    getTypes = async () => {
+    const changeTheme = () => {
+        if (theme) {
+            document.body.style = "background: rgb(247,205,70);";
+            setTheme(false);
+        } else {
+            document.body.style = "background: cornflowerblue;";
+            setTheme(true);
+        }
+    };
+
+    const getTypes = async () => {
         const response = await axios.get("https://pokeapi.co/api/v2/type");
-        this.setState({ types: response.data.results });
+        setTypes(response.data.results);
     };
 
-    handleClick(name, index) {
+    const handleClick = (name, index) => {
         const pokemon = {
             pokemonName: name,
-            pokemonIndex: index,
+            pokemonIndex: index
         };
-        this.setState({
-            catched: this.state.catched.concat(pokemon),
-        });
-    }
+        setCatched(catched.concat(pokemon));
+    };
 
-    render() {
-        return (
-            <Router>
-                <React.Fragment>
-                    <Header />
-                    <Navbar />
-                    <Route
-                        exact
-                        path="/"
-                        render={() => (
-                            <PokemonList
-                                pokemons={this.state.pokemons}
-                                handleClick={this.handleClick}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/pokemons"
-                        render={() => (
-                            <PokemonList
-                                pokemons={this.state.pokemons}
-                                handleClick={this.handleClick}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/types"
-                        render={() => <TypeList types={this.state.types} />}
-                    />
-                    <Route
-                        path="/catched"
-                        render={() => <Catched catched={this.state.catched} />}
-                    />
-                    <Route
-                        path="/pokemon/:id"
-                        render={() => <PokemonDetail />}
-                    />
-                </React.Fragment>
-            </Router>
-        );
-    }
-}
+    return (
+        <Router>
+            <React.Fragment>
+                <Header />
+                <Navbar changeTheme={changeTheme.bind(this)} />
+                <Route
+                    exact
+                    path='/'
+                    render={() => (
+                        <PokemonList
+                            pokemons={pokemons}
+                            handleClick={handleClick.bind(this)}
+                        />
+                    )}
+                />
+                <Route
+                    path='/pokemons'
+                    render={() => (
+                        <PokemonList
+                            pokemons={pokemons}
+                            handleClick={handleClick.bind(this)}
+                        />
+                    )}
+                />
+                <Route
+                    path='/types'
+                    render={() => <TypeList types={types} />}
+                />
+                <Route
+                    path='/catched'
+                    render={() => <Catched catched={catched} />}
+                />
+                <Route path='/pokemon/:id' render={() => <PokemonDetail />} />
+            </React.Fragment>
+        </Router>
+    );
+};
 
 export default App;

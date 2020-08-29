@@ -3,8 +3,8 @@ import "./PokeBall.css";
 
 const PokeBall = () => {
     return (
-        <div class="pokeball">
-            <div class="pokeball__button"></div>
+        <div className='pokeball'>
+            <div className='pokeball__button'></div>
         </div>
     );
 };
