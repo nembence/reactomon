@@ -1,55 +1,53 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { withRouter } from "react-router";
 import DetailContainer from "./DetailContainer";
 
-class PokemonDetail extends Component {
-    state = {
+const PokemonDetail = props => {
+    const [state, setState] = useState({
         name: "",
-        index: 0,
+        index: 1,
         height: 0,
         weight: 0,
         experience: 0,
         abilities: [],
-        types: [],
-    };
+        types: []
+    });
 
-    componentDidMount() {
-        const id = this.props.match.params.id;
-        this.setState({ index: id });
-        this.getPokemonData(id);
-    }
+    useEffect(() => {
+        const id = props.match.params.id;
+        const getPokemonData = async id => {
+            const response = await axios.get(
+                `https://pokeapi.co/api/v2/pokemon/${id}`
+            );
+            const data = response.data;
+            setState({
+                name: data.name,
+                index: id,
+                height: data.height,
+                weight: data.weight,
+                experience: data.base_experience,
+                abilities: data.abilities,
+                types: data.types
+            });
+        };
+        getPokemonData(id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    getPokemonData = async (id) => {
-        const response = await axios.get(
-            `https://pokeapi.co/api/v2/pokemon/${id}`
-        );
-        const data = response.data;
-        this.setState({
-            name: data.name,
-            height: data.height,
-            weight: data.weight,
-            experience: data.base_experience,
-            abilities: data.abilities,
-            types: data.types,
-        });
-    };
-
-    render() {
-        return (
-            <React.Fragment>
-                <DetailContainer
-                    name={this.state.name}
-                    index={this.state.index}
-                    height={this.state.height}
-                    weight={this.state.weight}
-                    experience={this.state.experience}
-                    abilities={this.state.abilities}
-                    types={this.state.types}
-                />
-            </React.Fragment>
-        );
-    }
-}
+    return (
+        <React.Fragment>
+            <DetailContainer
+                name={state.name}
+                index={state.index}
+                height={state.height}
+                weight={state.weight}
+                experience={state.experience}
+                abilities={state.abilities}
+                types={state.types}
+            />
+        </React.Fragment>
+    );
+};
 
 export default withRouter(PokemonDetail);

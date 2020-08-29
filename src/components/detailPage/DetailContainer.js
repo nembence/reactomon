@@ -1,6 +1,18 @@
 import React from "react";
-import PokemonCard from "../pokemons/PokemonCard";
 import Stats from "./Stats";
+import styled from "styled-components";
+import CatchedCard from "../catched/CatchedCard";
+
+const Container = styled.div`
+    display: table;
+    margin: 0 auto;
+`;
+
+const StatContainer = styled.div`
+    display: flex;
+    flexdirection: row;
+    margin: 5px;
+`;
 
 const DetailContainer = ({
     name,
@@ -9,12 +21,12 @@ const DetailContainer = ({
     weight,
     experience,
     abilities,
-    types,
+    types
 }) => {
     return (
-        <div style={detailStyle}>
-            <div style={flexStyle}>
-                <PokemonCard name={name} index={index} />
+        <Container>
+            <StatContainer>
+                <CatchedCard name={name} index={index} />
                 <Stats
                     height={height}
                     weight={weight}
@@ -22,20 +34,9 @@ const DetailContainer = ({
                     abilities={abilities}
                     types={types}
                 />
-            </div>
-        </div>
+            </StatContainer>
+        </Container>
     );
-};
-
-const detailStyle = {
-    display: "table",
-    margin: "0 auto",
-};
-
-const flexStyle = {
-    display: "flex",
-    flexDirection: "row",
-    margin: "5px",
 };
 
 export default DetailContainer;
